@@ -19,14 +19,30 @@ Before running this sample, you must have the following:
 
 ## How it works
 ---
+### Clone repository or download files to local machine
+
++ Download the repository files or clone to local machine.
+
+
 ### Create a new resource group and function application on Azure
 
 Run the following PowerShell command and specify the value for the function application name in the TemplateParameterObject hashtable.
 
 ```powershell
-New-AzResourceGroup -Name <resource-group-name> -Location <resource-group-location> #use this command when you need to create a new resource group for your deployment
+New-AzResourceGroup `
+  -Name <resource-group-name> `
+  -Location <resource-group-location> `
+#use this command when you need to create a new resource group for your deployment
+```
 
-New-AzResourceGroupDeployment -ResourceGroupName <resource-group-name> -TemplateUri https://raw.githubusercontent.com/Azure/azure-quickstart-templates/master/quickstarts/microsoft.web/functions-managed-identity/azuredeploy.json
+```powershell
+$templateFile = "{path-to-the-template-file}"
+$parameterFile="{path-to-azuredeploy.parameters.dev.json}"
+
+New-AzResourceGroupDeployment `
+  -ResourceGroupName <resource-group-name> `
+  -TemplateUri $templatefile `
+  -TemplateParameterFile $parameterfile
 ```
 
 This should create a new resource group with a function application and a managed service identity enabled. The id of the service principal for the MSI should be returned as an output from the deployment.
@@ -43,12 +59,6 @@ The below command sets the access at the subscription level.
 $Context = Get-AzContext
 New-AzRoleAssignment -ObjectId <principalId> -RoleDefinitionName Contributor -Scope "/subscriptions/$($Context.Subscription)"
 ```
-
-### Clone repository or download files to local machine
-
-+ Download the repository files or clone to local machine.
-
-+ Change to the PowerShell/StartStopVMOnTimer directory.
 
 ### Get the local.settings.json values from the function application created in Azure
 
