@@ -14,8 +14,11 @@ Before running this sample, you must have the following:
 
 + Install [Azure Core Tools version 2.x](https://docs.microsoft.com/en-us/azure/azure-functions/functions-run-local)
 
++ Install [Azure PowerShell](https://learn.microsoft.com/en-us/powershell/azure/install-az-ps?view=azps-9.0.1)
+
 + Install the [Azure CLI](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli)
 
+After installing either Azure PowerShell or Azure CLI, make sure you sign in for the first time. For help, see [Sign in - PowerShell](https://learn.microsoft.com/en-us/powershell/azure/install-az-ps?view=azps-9.0.1#sign-in) or [Sign in - Azure CLI](https://learn.microsoft.com/en-us/cli/azure/get-started-with-azure-cli#sign-in).
 
 ## How it works
 ---
@@ -23,12 +26,13 @@ Before running this sample, you must have the following:
 
 + Download the repository files or clone to local machine.
 
-
 ### Create a new resource group and function application on Azure
 
 Run the following PowerShell command and specify the value for the function application name in the TemplateParameterObject hashtable.
 
 ```powershell
+$projectName = "Enter the same project name"
+$resourceGroupName = "${projectName}rg"
 New-AzResourceGroup `
   -Name <resource-group-name> `
   -Location <resource-group-location> `
@@ -36,11 +40,14 @@ New-AzResourceGroup `
 ```
 
 ```powershell
+$projectName = "Enter the same project name"
+$resourceGroupName = "${projectName}rg"
 $templateFile = "{path-to-the-template-file}"
 $parameterFile="{path-to-azuredeploy.parameters.dev.json}"
 
 New-AzResourceGroupDeployment `
-  -ResourceGroupName <resource-group-name> `
+  -ResourceGroupName $resourceGroupName `
+  -projectName $projectName `
   -TemplateUri $templatefile `
   -TemplateParameterFile $parameterfile
 ```
